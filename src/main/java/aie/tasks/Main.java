@@ -17,6 +17,10 @@ public class Main {
         init();
     }
 
+    /**
+     * Start The Application by requesting the main length for matrix in [n,m,p]
+     * and also start applicatoin main looping
+     */
     private void init() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Please Enter Number of rows: ");
@@ -40,23 +44,39 @@ public class Main {
             init();
             return;
         }
-        matrix = new int[n * m * p];
+        int length = n * m * p;
+        if (length == 0) {
+            System.out.println("Length is 0 aborting");
+            System.exit(0);
+        }
+        matrix = new int[length];
+
         start(scanner);
     }
 
+    /**
+     * A function contains the app looping
+     *
+     * @param scanner the main application scanner for read inputs
+     */
     private void start(Scanner scanner) {
-        while (Thread.interrupted()) {
+        while (!Thread.interrupted()) {
             printUsageMessage();
             int option = Integer.parseInt(scanner.nextLine());
 
             switch (option) {
-                case 1 -> getFromMatrix(scanner);
-                case 2 -> addToMatrix(scanner);
+                case 1 -> addToMatrix(scanner);
+                case 2 -> getFromMatrix(scanner);
                 default -> System.out.println("Invalid option");
             }
         }
     }
 
+    /**
+     * Grab value from the matrix by generate the index {@code #generateIndex} and print its value
+     *
+     * @param scanner
+     */
     private void getFromMatrix(Scanner scanner) {
 
         int index = generateIndex(scanner);
@@ -66,6 +86,11 @@ public class Main {
         System.out.printf("Value: %d%n", matrix[index]);
     }
 
+    /**
+     * add new value to matrix
+     *
+     * @param scanner
+     */
     private void addToMatrix(Scanner scanner) {
         int index = generateIndex(scanner);
         if (index == -1) return;
@@ -75,6 +100,12 @@ public class Main {
 
     }
 
+    /**
+     * Read index values from user, and check it
+     *
+     * @param scanner the main application scanner object
+     * @return the generated index
+     */
     private int generateIndex(Scanner scanner) {
         System.out.print("Please Enter i,j,k. Note , between numbers: ");
         String s = scanner.nextLine();
@@ -97,21 +128,38 @@ public class Main {
             return -1;
         }
         int index = getIndex(ints[0], ints[1], ints[2]);
-        return index >= matrix.length ? -1 : index;
+        if (index >= matrix.length) {
+            System.out.println("Invalid Index Values");
+            return -1;
+        }
+        return index;
     }
 
     private void printUsageMessage() {
         System.out.println("1- Add Values To Matrix");
         System.out.println("2- Get Value From Matrix");
-        System.out.println("3- Display Matrix");
         System.out.print("-> ");
     }
 
+    /**
+     * generate the actual list index based on i, j, and k
+     *
+     * @param i the index in x-axis
+     * @param j index in y-axis
+     * @param k index in z-axis
+     * @return the actual index of the list
+     */
     private int getIndex(int i, int j, int k) {
         return (k * n * m) + (j * m) + i;
     }
 
+    /**
+     * Check whether value is valid or not by checking if it is bigger or equal 0
+     *
+     * @param value the value to be checked
+     * @return true is valid otherwise false
+     */
     private static boolean isValid(int value) {
-        return value > 0;
+        return value >= 0;
     }
 }
