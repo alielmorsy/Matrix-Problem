@@ -19,7 +19,7 @@ public class Main {
 
     /**
      * Start The Application by requesting the main length for matrix in [n,m,p]
-     * and also start applicatoin main looping
+     * and also start application main looping
      */
     private void init() {
         Scanner scanner = new Scanner(System.in);
